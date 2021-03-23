@@ -60,4 +60,4 @@ function somethingThatCouldFail(echo) {
   } else {
     return Promise.resolve(echo);
   }
-}
+};
