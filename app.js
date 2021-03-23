@@ -41,8 +41,8 @@ app.get('/api/greeting', async (req, res) => {
     end({
       method: req.method,
       handler: new URL(req.url, `http://${req.hostname}`).pathname,
-      code: res.statusCode,
-    )})
+      code: res.statusCode
+    })
   })
 };
 
