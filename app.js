@@ -9,7 +9,7 @@ const client = require('prom-client');
 const collectDefaultMetrics = client.collectDefaultMetrics;
 
 // define a custom prefix string for application metrics
-collectDefaultMetrics({ prefix: 'my_app:' });
+collectDefaultMetrics({ prefix: 'test-prometheus:' });
 
 const histogram = new client.Histogram({
   name: 'http_request_duration_seconds',
@@ -26,25 +26,25 @@ let failureCounter = 0;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//app.get('/api/greeting', async (req, res) => {
-//  const end = histogram.startTimer();
-//  const name = req.query?.name || 'World';
+app.get('/api/greeting', async (req, res) => {
+  const end = histogram.startTimer();
+  const name = req.query?.name || 'World';
 
-//  try {
-//    const result = await somethingThatCouldFail(`Hello, ${name}`);
-//    res.send({ message: result });
-//  } catch (err) {
-//    res.status(500).send({ error: err.toString() });
-//  }
+  try {
+    const result = await somethingThatCouldFail(`Hello, ${name}`);
+    res.send({ message: result });
+  } catch (err) {
+    res.status(500).send({ error: err.toString() });
+  }
 
-//  res.on('finish', () => {
-//    end({
-//      method: req.method,
-//      handler: new URL(req.url, `http://${req.hostname}`).pathname,
-//      code: res.statusCode
-//    })
-//  });
-//});
+  res.on('finish', () => {
+    end({
+      method: req.method,
+      handler: new URL(req.url, `http://${req.hostname}`).pathname,
+      code: res.statusCode
+    })
+  });
+});
 
 // expose our metrics at the default URL for Prometheus
 app.get('/metrics', async (req, res) => {
