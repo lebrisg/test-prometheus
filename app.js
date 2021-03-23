@@ -9,7 +9,7 @@ const client = require('prom-client');
 const collectDefaultMetrics = client.collectDefaultMetrics;
 
 // define a custom prefix string for application metrics
-collectDefaultMetrics({ prefix: 'test-prometheus:' });
+collectDefaultMetrics({ prefix: 'my_app:' });
 
 const histogram = new client.Histogram({
   name: 'http_request_duration_seconds',
