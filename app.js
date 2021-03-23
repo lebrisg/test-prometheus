@@ -40,11 +40,11 @@ app.get('/api/greeting', async (req, res) => {
   res.on('finish', () => {
     end({
       method: req.method,
-      handler: new URL(req.url, `http://${req.hostname}`).pathname,
+      handler: "new URL(req.url, `http://${req.hostname}`).pathname",
       code: res.statusCode
     })
   });
-};
+});
 
 // expose our metrics at the default URL for Prometheus
 app.get('/metrics', async (req, res) => {
